@@ -63,6 +63,9 @@ for idx, (Z, filename, label) in enumerate(configurations, 1):
         plt.grid(True, which="both", linestyle="--", alpha=0.7)
         plt.legend()
 
+        ax = plt.gca()
+        ax.xaxis.set_major_locator(plt.MaxNLocator(integer=True))
+
 plt.suptitle("ORAM Stash Size Analysis", y=1.05)
 plt.tight_layout()
 plt.savefig("data/plot.png", bbox_inches="tight", dpi=300)
