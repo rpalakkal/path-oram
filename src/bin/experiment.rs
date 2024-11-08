@@ -35,9 +35,7 @@ fn experiment<const Z: usize>(warmup: usize, access: usize) {
 
 pub fn main() {
     env_logger::init();
-    let num_warmup = 1_000_000;
-    let num_access = 1_000_000;
-    experiment::<2>(num_warmup, num_access);
-    experiment::<4>(num_warmup, num_access);
-    experiment::<6>(num_warmup, num_access);
+    experiment::<2>(1_000_000, 1_000_000);
+    experiment::<4>(3_000_000, 10_000_000);
+    experiment::<6>(3_000_000, 10_000_000);
 }
