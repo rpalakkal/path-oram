@@ -19,7 +19,7 @@ def process_data(data):
 
     max_stash = max(stash_sizes)
     print(f"max_stash={max_stash}")
-    R_values = np.arange(0, max_stash + 2)
+    R_values = np.arange(-1, max_stash + 2)
 
     delta_R = []
     for R in R_values:
