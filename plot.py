@@ -22,13 +22,15 @@ def process_data(data):
     R_values = np.arange(-1, max_stash + 2)
 
     delta_R = []
+    processed_data = []
     for R in R_values:
         exceeds_R = np.sum(stash_sizes > R)
+        processed_data.append((R, exceeds_R))
         delta = exceeds_R / total_samples
         if delta > 0:
             delta_R.append((R, delta))
 
-    return delta_R
+    return delta_R, processed_data[:-1]
 
 
 def plot_stash_analysis(delta_R, title):
@@ -39,9 +41,9 @@ def plot_stash_analysis(delta_R, title):
 
 
 configurations = [
-    (2, "data/2.txt", "N=2²⁰, Z=2, B=32"),
-    (4, "data/4.txt", "N=2²⁰, Z=4, B=32"),
-    (6, "data/6.txt", "N=2²⁰, Z=6, B=32"),
+    (2, "data/raw_2.txt", "N=2²⁰, Z=2, B=32"),
+    (4, "data/raw_4.txt", "N=2²⁰, Z=4, B=32"),
+    (6, "data/raw_6.txt", "N=2²⁰, Z=6, B=32"),
 ]
 
 plt.figure(figsize=(15, 5))
@@ -54,8 +56,12 @@ for idx, (Z, filename, label) in enumerate(configurations, 1):
         print(f"\nProcessing data for Z={Z} from {filename}")
         print(f"Number of data points: {len(data)}")
 
-        delta_R = process_data(data)
+        delta_R, processed_data = process_data(data)
         plot_stash_analysis(delta_R, label)
+
+        with open(f"data/{Z}.txt", "w") as f:
+            for R, exceeds_R in processed_data:
+                f.write(f"{R},{exceeds_R}\n")
 
         plt.title(f"Z={Z}")
         plt.xlabel("R")
